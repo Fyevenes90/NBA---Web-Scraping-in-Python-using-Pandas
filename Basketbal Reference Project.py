@@ -1,140 +1,150 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[103]:
-
-
+#Lets Import the libraries
 import pandas as pd
+import seaborn as sns
 
 
-# In[104]:
 
-
-#Lets bring the data from url
-year ='2019'
+#The building blocks
+year = '2019'
 str = 'https://www.basketball-reference.com/leagues/NBA_{}_per_game.html'
-
-
-# In[105]:
-
-
-#lets combining both together 
+#lets combine the str and year = URL
 url = str.format(year)
 url
 
 
-# In[106]:
 
 
-df = pd.read_html(url,header = 0)
+#Read the irl with pandas 
+df = pd.read_html(url,header =0)
 
 
-# In[47]:
 
-
-#Example doing it with dif website
-
-#str = 'https://www.w3schools.com/html/html_tables.asp'
-#url = str
-
-#df = pd.read_html(url, header = 0)
-
-
-# In[107]:
-
-
+#How many tables in the link:
 len(df)
 
 
-# In[108]:
+
+df[0]
 
 
-DF_2019 = df[0]
-DF_2019.head()
 
 
-# In[109]:
+df2019 = df[0]
 
 
-##Data cleaning
-DF_2019[DF_2019.Age =='Age']
 
 
-# In[110]:
+df2019.shape
 
 
-New_2019DF = DF_2019.drop(DF_2019[DF_2019.Age =='Age'].index)
 
 
-# In[111]:
+#Lets check if we have duplicates
+df2019[df2019.Age =='Age']
 
 
-New_2019DF.shape
+
+df = df2019.drop(df2019[df2019.Age == 'Age'].index)
+df.shape
 
 
-# In[64]:
+# In[124]:
 
 
-import statistics
+#check if we have more duplicates
+len(df[df.Age =='Age'])
 
 
-# In[67]:
+# In[125]:
 
 
-New_2019DF['Age']
+#Lets get the shape of the dataframe
+df.shape
 
 
-# In[79]:
+# In[126]:
 
 
-New_2019DF[['Age']]
+df.head()
 
 
-# In[112]:
+# In[127]:
 
 
-New_2019DF.describe()
+#Lets make an histogram to see how the data behave
+
+sns.distplot(df.PTS,kde=False)
 
 
-# In[114]:
+# In[128]:
 
 
-New_2019DF.head()
+#Lets check the data Types
+df.dtypes
 
 
-# In[132]:
+# In[129]:
 
 
-New_2019DF.dtypes
+#Change Data types to Float for PTS and Age
+df['PTS'] = df['PTS'].astype(float, errors = 'raise')
+df['Age'] = df['Age'].astype(float, errors = 'raise')
+
+# In[130]:
 
 
-# In[133]:
-
-
-import seaborn as sns
-import matplotlib.pyplot as plt
+df['PTS'].dtypes
 
 
 # In[131]:
 
 
-New_2019DF.PTS=pd.to_numeric(New_2019DF.PTS)
-#New_2019DF.age=pd.to_numeric(pf.age)
+#lets sort values
+Sort_PTS = df.sort_values(by='PTS',ascending=False)
+Sort_PTS
 
 
-# In[136]:
 
 
-#Always make sure that the numerical column is in the right format
-New_2019DF.plot(kind='bar',x='Player',y ='PTS')
+#Now lets bring only the columns that we need for this data analysis
+DF_set = Sort_PTS[['PTS', 'Player','Age','Pos','Tm']]
+DF_set
+
+Top_10_players = DF_set.head(10)
+#Lets take a look in Excel
+Top_10_players.to_excel("Top_10_players.xlsx", index =False)
+
+#Lets plot this 10 top players
+Top_10_players.plot(kind='bar',  y= 'PTS', x= 'Player')
 
 
-# In[137]:
+
+####---------------####---------------------------####
 
 
-#plot data
-fig, ax = plt.subplots(figsize=(15,7))
-New_2019DF.groupby(['Age']).count()['PTS'].plot(ax=ax)
+#Lets grab data from another website
+
+str = 'https://www.w3schools.com/html/html_tables.asp'
+url = str
+
+df = pd.read_html(url, header = 0)
+
+
+# In[105]:
+
+
+len(df)
+
+
+
+df
+
+
+
+#Lets bring the first table as a Data frame
+
+Table_1 = df[0]
+Table_1
 
 
 # In[ ]:
@@ -142,3 +152,14 @@ New_2019DF.groupby(['Age']).count()['PTS'].plot(ax=ax)
 
 
 
+#------------------------#----------------#------------------------#-----------------
+
+
+#In a Loop / another way to do it
+years = [2015,2016,2017,2018]
+str = 'https://www.basketball-reference.com/leagues/NBA_{}_per_game.html'
+
+for year in years:
+    #lets combine the str and year = get individual URL's
+    url = str.format(year)
+    print(url)
