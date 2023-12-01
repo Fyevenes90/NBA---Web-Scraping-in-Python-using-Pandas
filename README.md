@@ -1,4 +1,4 @@
-# NBA---Web-Scraping-in-Python-using-Pandas
+# NBA 🏀 Web Scraping with Python using Pandas
 ![NBA](https://github.com/Fyevenes90/NBA---Web-Scraping-in-Python-using-Pandas/assets/28694631/5741108a-4cc2-4205-8815-330358271ba1)
 
 Hey there, 
