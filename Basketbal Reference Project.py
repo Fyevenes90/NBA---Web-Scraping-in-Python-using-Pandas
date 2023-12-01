@@ -2,8 +2,6 @@
 import pandas as pd
 import seaborn as sns
 
-
-
 #The building blocks
 year = '2019'
 str = 'https://www.basketball-reference.com/leagues/NBA_{}_per_game.html'
@@ -11,100 +9,49 @@ str = 'https://www.basketball-reference.com/leagues/NBA_{}_per_game.html'
 url = str.format(year)
 url
 
-
-
-
 #Read the irl with pandas 
 df = pd.read_html(url,header =0)
-
-
 
 #How many tables in the link:
 len(df)
 
-
-
 df[0]
 
-
-
-
+#Lets define the new dataset
 df2019 = df[0]
 
-
-
-
 df2019.shape
-
-
-
 
 #Lets check if we have duplicates
 df2019[df2019.Age =='Age']
 
-
-
 df = df2019.drop(df2019[df2019.Age == 'Age'].index)
 df.shape
-
-
-# In[124]:
-
 
 #check if we have more duplicates
 len(df[df.Age =='Age'])
 
-
-# In[125]:
-
-
 #Lets get the shape of the dataframe
 df.shape
 
-
-# In[126]:
-
-
 df.head()
-
-
-# In[127]:
-
 
 #Lets make an histogram to see how the data behave
 
 sns.distplot(df.PTS,kde=False)
 
-
-# In[128]:
-
-
 #Lets check the data Types
 df.dtypes
-
-
-# In[129]:
-
 
 #Change Data types to Float for PTS and Age
 df['PTS'] = df['PTS'].astype(float, errors = 'raise')
 df['Age'] = df['Age'].astype(float, errors = 'raise')
 
-# In[130]:
-
-
 df['PTS'].dtypes
-
-
-# In[131]:
-
 
 #lets sort values
 Sort_PTS = df.sort_values(by='PTS',ascending=False)
 Sort_PTS
-
-
-
 
 #Now lets bring only the columns that we need for this data analysis
 DF_set = Sort_PTS[['PTS', 'Player','Age','Pos','Tm']]
