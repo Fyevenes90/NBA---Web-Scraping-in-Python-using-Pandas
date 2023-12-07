@@ -49,6 +49,7 @@ df['Age'] = df['Age'].astype(float, errors = 'raise')
 
 df['PTS'].dtypes
 
+
 #lets sort values
 Sort_PTS = df.sort_values(by='PTS',ascending=False)
 Sort_PTS
@@ -63,6 +64,20 @@ Top_10_players.to_excel("Top_10_players.xlsx", index =False)
 
 #Lets plot this 10 top players
 Top_10_players.plot(kind='bar',  y= 'PTS', x= 'Player')
+
+top_players = DF_set.sort_values(by='PTS', ascending=False).head(10)
+
+#Lets plot the visualization 
+import seaborn as sns
+import matplotlib.pyplot as plt
+# Create a bar plot using Seaborn
+plt.figure(figsize=(12, 8))
+sns.barplot(x='Player', y='PTS', data = top_players, palette='viridis')
+plt.title('Top 10 NBA Players Based on Points')
+plt.xlabel('Player')
+plt.ylabel('PTS')
+plt.xticks(rotation=45, ha='right')  # Rotate x-axis labels for better readability
+plt.show()
 
 
 
